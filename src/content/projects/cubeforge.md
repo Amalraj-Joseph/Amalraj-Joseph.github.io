@@ -19,7 +19,7 @@ technologies:
 github: https://github.com/Amalraj-Joseph/CubeForge
 demo: https://cubeforge.amalraj.dev
 featured: true
-year: "2025"
+year: "2026"
 visual: cube
 order: 1
 ---
