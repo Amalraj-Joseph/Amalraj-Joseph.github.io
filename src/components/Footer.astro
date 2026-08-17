@@ -1,0 +1,98 @@
+---
+import { PROFILES } from '../lib/site';
+
+const links = [
+	{ label: 'GitHub', href: PROFILES.github },
+	{ label: 'LinkedIn', href: PROFILES.linkedin },
+	{ label: 'Medium', href: PROFILES.medium },
+	{ label: 'Email', href: `mailto:${PROFILES.email}` },
+];
+---
+
+<footer class="section footer" id="contact">
+	<div class="container footer-grid">
+		<div>
+			<p class="label">Contact</p>
+			<h2 class="text-h2 heading">Say hello</h2>
+			<p class="lede">
+				The fastest way to reach me is email, or a message on LinkedIn.
+			</p>
+		</div>
+
+		<ul class="link-list" aria-label="Profiles and contact">
+			{
+				links.map((link) => (
+					<li>
+						<a href={link.href} target={link.href.startsWith('mailto:') ? undefined : '_blank'} rel="noopener noreferrer">
+							{link.label} ↗
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="container bottom">
+		<p>Amalraj Joseph</p>
+		<p class="built">Built and maintained by Amalraj.</p>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		padding-bottom: var(--space-7);
+	}
+
+	.footer-grid {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.heading {
+		margin-top: var(--space-3);
+	}
+
+	.lede {
+		margin-top: var(--space-4);
+		color: var(--ink-soft);
+		max-width: 40ch;
+	}
+
+	.link-list {
+		display: grid;
+		gap: var(--space-3);
+		align-content: start;
+	}
+
+	.link-list a {
+		font-family: var(--font-display);
+		font-size: 1rem;
+		text-decoration: none;
+		color: var(--ink);
+		border-bottom: 1px solid transparent;
+	}
+
+	.link-list a:hover {
+		color: var(--copper-strong);
+		border-color: var(--copper);
+	}
+
+	.bottom {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: var(--space-8);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--line);
+		font-family: var(--font-display);
+		font-size: 0.8rem;
+		color: var(--ink-faint);
+	}
+
+	@media (min-width: 860px) {
+		.footer-grid {
+			grid-template-columns: 1fr auto;
+		}
+	}
+</style>

@@ -1,0 +1,112 @@
+---
+import { PROFILES } from '../lib/site';
+import HeroGraphic from './HeroGraphic.astro';
+---
+
+<section class="hero" id="top">
+	<div class="container hero-grid">
+		<div class="hero-copy">
+			<p class="label">Kochi, India</p>
+			<h1 class="text-display">
+				Amalraj Joseph
+			</h1>
+			<p class="role">Software Engineer</p>
+			<p class="text-lead intro">
+				I work with Java, Kubernetes, and cloud-native platforms — building
+				backend systems, developer tooling, and small products that turn
+				complicated workflows into something easier to use.
+			</p>
+			<div class="hero-links">
+				<a class="btn btn--primary" href="#work">View work</a>
+				<a class="btn" href={PROFILES.github} target="_blank" rel="noopener noreferrer">
+					GitHub
+				</a>
+				<a class="btn" href={PROFILES.linkedin} target="_blank" rel="noopener noreferrer">
+					LinkedIn
+				</a>
+			</div>
+		</div>
+		<div class="hero-visual" aria-hidden="false">
+			<HeroGraphic />
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		padding-block: var(--space-8) var(--space-7);
+	}
+
+	.hero-grid {
+		display: grid;
+		gap: var(--space-7);
+		align-items: center;
+	}
+
+	.hero h1 {
+		margin-top: var(--space-2);
+	}
+
+	.role {
+		font-family: var(--font-display);
+		color: var(--copper);
+		font-size: 1.1rem;
+		margin-top: var(--space-3);
+	}
+
+	.intro {
+		margin-top: var(--space-5);
+		max-width: 40ch;
+		color: var(--ink-soft);
+	}
+
+	.hero-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		margin-top: var(--space-6);
+	}
+
+	.btn {
+		font-family: var(--font-display);
+		font-size: 0.9rem;
+		text-decoration: none;
+		padding: var(--space-3) var(--space-5);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
+		color: var(--ink);
+		transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+	}
+
+	.btn:hover {
+		border-color: var(--copper);
+		color: var(--copper-strong);
+	}
+
+	.btn--primary {
+		background: var(--ink);
+		color: var(--paper);
+		border-color: var(--ink);
+	}
+
+	.btn--primary:hover {
+		background: var(--copper-strong);
+		border-color: var(--copper-strong);
+		color: var(--paper);
+	}
+
+	.hero-visual {
+		max-width: 30rem;
+		margin-inline: auto;
+	}
+
+	@media (min-width: 860px) {
+		.hero-grid {
+			grid-template-columns: 1.1fr 1fr;
+		}
+
+		.hero-visual {
+			margin-inline: 0;
+		}
+	}
+</style>

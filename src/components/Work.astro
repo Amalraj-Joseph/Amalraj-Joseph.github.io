@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectFeature from './ProjectFeature.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="section" id="work">
+	<div class="container">
+		<p class="label">Work</p>
+		<h2 class="text-h2 heading">Projects</h2>
+
+		<div class="list">
+			{projects.map((project, index) => <ProjectFeature project={project} index={index} />)}
+		</div>
+	</div>
+</section>
+
+<style>
+	.heading {
+		margin-top: var(--space-3);
+	}
+
+	.list {
+		margin-top: var(--space-3);
+	}
+</style>

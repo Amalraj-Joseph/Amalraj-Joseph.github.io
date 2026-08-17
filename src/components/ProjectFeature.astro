@@ -1,0 +1,129 @@
+---
+import CubeVisual from './CubeVisual.astro';
+import ArchVisual from './ArchVisual.astro';
+
+interface Props {
+	project: {
+		id: string;
+		data: {
+			title: string;
+			description: string;
+			longDescription?: string;
+			technologies: string[];
+			github: string;
+			demo?: string;
+			year: string;
+			visual?: 'cube' | 'architecture';
+		};
+	};
+	index: number;
+}
+
+const { project, index } = Astro.props;
+const { title, description, longDescription, technologies, github, demo, year, visual } = project.data;
+const reversed = index % 2 === 1;
+const figure = String(index + 1).padStart(2, '0');
+---
+
+<article class:list={['project', { reversed }]}>
+	<div class="project-copy">
+		<p class="label">Fig. {figure} — {year}</p>
+		<h3 class="text-h2">{title}</h3>
+		<p class="text-lead">{description}</p>
+		{longDescription && <p class="long">{longDescription}</p>}
+
+		<ul class="tech" aria-label={`Technologies used in ${title}`}>
+			{technologies.map((tech) => <li>{tech}</li>)}
+		</ul>
+
+		<div class="links">
+			<a href={github} target="_blank" rel="noopener noreferrer">
+				Source ↗<span class="visually-hidden"> (opens {title} on GitHub)</span>
+			</a>
+			{
+				demo && (
+					<a href={demo} target="_blank" rel="noopener noreferrer">
+						Live ↗<span class="visually-hidden"> (opens {title} demo)</span>
+					</a>
+				)
+			}
+		</div>
+	</div>
+
+	<div class="project-visual">
+		{visual === 'cube' ? <CubeVisual /> : <ArchVisual />}
+	</div>
+</article>
+
+<style>
+	.project {
+		display: grid;
+		gap: var(--space-6);
+		align-items: center;
+		padding-block: var(--space-7);
+	}
+
+	.project + .project {
+		border-top: 1px dashed var(--line);
+	}
+
+	.long {
+		color: var(--ink-soft);
+		max-width: 56ch;
+	}
+
+	.tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+	}
+
+	.tech li {
+		font-family: var(--font-display);
+		font-size: 0.75rem;
+		color: var(--ink-soft);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
+		padding: var(--space-1) var(--space-3);
+	}
+
+	.links {
+		display: flex;
+		gap: var(--space-5);
+		margin-top: var(--space-6);
+	}
+
+	.links a {
+		font-family: var(--font-display);
+		font-size: 0.9rem;
+		text-decoration: none;
+		color: var(--copper-strong);
+		border-bottom: 1px solid transparent;
+	}
+
+	.links a:hover {
+		border-color: var(--copper);
+	}
+
+	.project-visual {
+		background: color-mix(in srgb, var(--paper-raised) 60%, transparent);
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		padding: var(--space-6);
+	}
+
+	@media (min-width: 860px) {
+		.project {
+			grid-template-columns: 1.1fr 0.9fr;
+		}
+
+		.project.reversed .project-copy {
+			order: 2;
+		}
+
+		.project.reversed .project-visual {
+			order: 1;
+		}
+	}
+</style>
