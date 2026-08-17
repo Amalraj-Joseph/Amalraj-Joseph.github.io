@@ -1,0 +1,80 @@
+---
+const points = [
+	'Worked on a Maven-based software distribution repository integrating IBM Fix Central infrastructure and repository management.',
+	'Built backend services for deploying and managing multi-module Java applications on a cloud application platform, including REST APIs for retrieving repository metadata in multi-tenant environments.',
+	'Worked on integration testing for IBM Enterprise Application Service for Java on AWS.',
+	'Evaluated the impact of migrating container base images across microservices deployed on Red Hat OpenShift.',
+	'Built automation for credential rotation and artifact publishing with Jenkins and JFrog Artifactory, and internal tooling for reporting and repository workflows in Python.',
+];
+---
+
+<section class="section" id="experience">
+	<div class="container exp-grid">
+		<div>
+			<p class="label">Experience</p>
+			<h2 class="text-h2 heading">Where this work happens</h2>
+		</div>
+
+		<div class="role">
+			<div class="role-head">
+				<h3 class="text-h3">IBM India Software Lab</h3>
+				<p class="meta">Software Engineer · Kochi, India · July 2023 — Present</p>
+			</div>
+			<ul class="points">
+				{points.map((point) => <li>{point}</li>)}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.exp-grid {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.heading {
+		margin-top: var(--space-3);
+		max-width: 20ch;
+	}
+
+	.role-head {
+		display: grid;
+		gap: var(--space-2);
+	}
+
+	.meta {
+		font-family: var(--font-display);
+		font-size: 0.85rem;
+		color: var(--ink-faint);
+	}
+
+	.points {
+		display: grid;
+		gap: var(--space-3);
+		margin-top: var(--space-5);
+		max-width: 62ch;
+	}
+
+	.points li {
+		position: relative;
+		padding-left: var(--space-5);
+		color: var(--ink-soft);
+	}
+
+	.points li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.6em;
+		width: 6px;
+		height: 6px;
+		background: var(--teal);
+	}
+
+	@media (min-width: 860px) {
+		.exp-grid {
+			grid-template-columns: 0.8fr 1.2fr;
+		}
+	}
+</style>

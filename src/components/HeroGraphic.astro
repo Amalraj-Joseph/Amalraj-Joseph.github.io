@@ -1,0 +1,123 @@
+---
+// A small system diagram — a request moving from a client, through an API,
+// out to a cluster of pods, down to a datastore. This is deliberately drawn
+// from the subject's own work (REST APIs, Kubernetes) rather than a generic
+// particle network.
+---
+
+<figure class="hero-graphic" role="img" aria-label="Diagram of a request flowing from a client through an API to a cluster of pods and a datastore">
+	<svg viewBox="0 0 560 460" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+		<!-- connective tissue -->
+		<path class="line" d="M96 84 H 250" />
+		<path class="line flow" d="M330 100 C 300 140, 300 160, 300 190" />
+		<path class="line flow" d="M330 108 C 380 150, 390 170, 388 196" />
+		<path class="line flow" d="M330 116 C 430 160, 460 180, 470 200" />
+		<path class="line" d="M300 262 V 322" />
+		<path class="line dim" d="M388 264 C 388 300, 340 316, 306 324" />
+
+		<!-- client -->
+		<g class="node">
+			<rect x="24" y="60" width="72" height="48" rx="4" />
+			<text x="60" y="89" text-anchor="middle">client</text>
+		</g>
+
+		<!-- api -->
+		<g class="node node--api">
+			<rect x="254" y="72" width="120" height="52" rx="4" />
+			<text x="314" y="94" text-anchor="middle">GET /v1/items</text>
+			<text x="314" y="112" text-anchor="middle" class="dim-text">api</text>
+		</g>
+
+		<!-- pods (hex) -->
+		<g class="node">
+			<polygon points="300,192 322,204 322,228 300,240 278,228 278,204" />
+			<text x="300" y="220" text-anchor="middle" class="mini">pod</text>
+		</g>
+		<g class="node">
+			<polygon points="388,198 410,210 410,234 388,246 366,234 366,210" />
+			<text x="388" y="226" text-anchor="middle" class="mini">pod</text>
+		</g>
+		<g class="node">
+			<polygon points="470,202 492,214 492,238 470,250 448,238 448,214" />
+			<text x="470" y="230" text-anchor="middle" class="mini">pod</text>
+		</g>
+
+		<!-- data -->
+		<g class="node node--data">
+			<rect x="256" y="324" width="88" height="52" rx="4" />
+			<text x="300" y="356" text-anchor="middle" class="mini">db</text>
+		</g>
+	</svg>
+</figure>
+
+<style>
+	.hero-graphic {
+		margin: 0;
+		width: 100%;
+	}
+
+	svg {
+		width: 100%;
+		height: auto;
+	}
+
+	.line {
+		stroke: var(--line-strong);
+		stroke-width: 1.5;
+		fill: none;
+	}
+
+	.line.dim {
+		stroke: var(--line);
+		stroke-dasharray: 3 4;
+	}
+
+	.line.flow {
+		stroke: var(--teal);
+		stroke-dasharray: 4 5;
+		opacity: 0.75;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.line.flow {
+			animation: dash 5s linear infinite;
+		}
+	}
+
+	@keyframes dash {
+		to {
+			stroke-dashoffset: -90;
+		}
+	}
+
+	.node rect,
+	.node polygon {
+		fill: var(--paper-raised);
+		stroke: var(--ink);
+		stroke-width: 1.4;
+	}
+
+	.node--api rect {
+		stroke: var(--copper);
+	}
+
+	.node--data rect {
+		stroke-dasharray: 2 3;
+	}
+
+	.node text {
+		font-family: var(--font-display);
+		font-size: 12px;
+		fill: var(--ink);
+	}
+
+	.node text.dim-text {
+		fill: var(--ink-faint);
+		font-size: 10px;
+	}
+
+	.node text.mini {
+		font-size: 11px;
+		fill: var(--ink-soft);
+	}
+</style>

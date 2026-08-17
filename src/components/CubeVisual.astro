@@ -1,0 +1,104 @@
+---
+// CubeForge is the one project that earns a literal cube. The faces use the
+// same blueprint grid as the rest of the page so it reads as part of the
+// site's system, not a decorative sticker.
+const facts = ['26 pieces', '24 orientations', '18 moves', 'spec-verified', '865+ tests', 'core/'];
+---
+
+<div class="cube-stage" tabindex="0" aria-label="Rotating cube illustrating CubeForge's cube model">
+	<div class="cube">
+		{
+			facts.map((fact) => (
+				<div class="face">
+					<span>{fact}</span>
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<style>
+	.cube-stage {
+		--size: 148px;
+		width: 100%;
+		aspect-ratio: 1.4;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		perspective: 900px;
+		outline-offset: 6px;
+	}
+
+	.cube {
+		position: relative;
+		width: var(--size);
+		height: var(--size);
+		transform-style: preserve-3d;
+		transform: rotateX(-24deg) rotateY(35deg);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.cube {
+			animation: spin 22s linear infinite;
+		}
+
+		.cube-stage:hover .cube,
+		.cube-stage:focus-visible .cube {
+			animation-play-state: paused;
+		}
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotateX(-24deg) rotateY(395deg);
+		}
+	}
+
+	.face {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		border: 1px solid var(--line-strong);
+		background:
+			linear-gradient(to right, var(--line) 1px, transparent 1px) 0 0 / 24px 24px,
+			linear-gradient(to bottom, var(--line) 1px, transparent 1px) 0 0 / 24px 24px,
+			var(--paper-raised);
+		backface-visibility: hidden;
+	}
+
+	.face span {
+		font-family: var(--font-display);
+		font-size: 0.7rem;
+		letter-spacing: 0.03em;
+		color: var(--ink-soft);
+		background: var(--paper-raised);
+		padding: 2px 6px;
+		border: 1px solid var(--line);
+	}
+
+	.face:nth-child(1) {
+		transform: translateZ(calc(var(--size) / 2));
+	}
+	.face:nth-child(2) {
+		transform: rotateY(90deg) translateZ(calc(var(--size) / 2));
+	}
+	.face:nth-child(3) {
+		transform: rotateY(180deg) translateZ(calc(var(--size) / 2));
+	}
+	.face:nth-child(4) {
+		transform: rotateY(-90deg) translateZ(calc(var(--size) / 2));
+	}
+	.face:nth-child(5) {
+		transform: rotateX(-90deg) translateZ(calc(var(--size) / 2));
+	}
+	.face:nth-child(6) {
+		transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+	}
+	.face:nth-child(2) span,
+	.face:nth-child(4) span {
+		border-color: var(--copper);
+	}
+</style>

@@ -1,0 +1,233 @@
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+@import '@fontsource/ibm-plex-mono/400-italic.css';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+
+/* ---------------------------------------------------------------------
+   Design tokens — "engineering notebook": a paper canvas with a faint
+   blueprint grid, dark terminal-style insets for code/diagram artifacts,
+   and two accents borrowed from a circuit board: copper (solder joints,
+   interactive things) and teal (traces, connections, data flow).
+   ------------------------------------------------------------------- */
+:root {
+	/* paper */
+	--paper: #f2f3ee;
+	--paper-raised: #fbfbf8;
+	--line: #dcdfd5;
+	--line-strong: #c2c6b8;
+
+	/* ink */
+	--ink: #14181d;
+	--ink-soft: #4b535c;
+	--ink-faint: #656b72;
+
+	/* accents */
+	--copper: #a24e22;
+	--copper-strong: #8f4620;
+	--teal: #1f6f63;
+	--teal-strong: #16544a;
+
+	/* terminal inset */
+	--terminal-bg: #14181d;
+	--terminal-ink: #e8e6dd;
+	--terminal-soft: #9aa3ab;
+	--terminal-accent: #7fe0c4;
+	--terminal-copper: #e0a06a;
+
+	/* type */
+	--font-display: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+	--font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+	/* spacing scale */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4.5rem;
+	--space-9: 6.5rem;
+	--space-10: 9rem;
+
+	--radius: 3px;
+	--content-width: 72rem;
+	--grid-size: 28px;
+
+	color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	background: var(--paper);
+	color-scheme: light;
+}
+
+body {
+	margin: 0;
+	background:
+		linear-gradient(to right, var(--line) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size),
+		linear-gradient(to bottom, var(--line) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size),
+		var(--paper);
+	background-attachment: fixed;
+	color: var(--ink);
+	font-family: var(--font-body);
+	font-size: 1rem;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	opacity: 0.98;
+}
+
+@media (prefers-contrast: more) {
+	body {
+		background: var(--paper);
+	}
+}
+
+img,
+svg {
+	max-width: 100%;
+	display: block;
+}
+
+a {
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-display);
+	font-weight: 600;
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+button {
+	font-family: inherit;
+}
+
+/* fluid type scale */
+.text-display {
+	font-size: clamp(2.4rem, 1.7rem + 3vw, 4.6rem);
+}
+
+.text-h2 {
+	font-size: clamp(1.6rem, 1.35rem + 1.1vw, 2.3rem);
+}
+
+.text-h3 {
+	font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+}
+
+.text-lead {
+	font-size: clamp(1.05rem, 1rem + 0.3vw, 1.25rem);
+	line-height: 1.55;
+}
+
+.text-small {
+	font-size: 0.875rem;
+}
+
+/* eyebrow / blueprint annotation label, used consistently as the
+   recurring structural device that ties sections together */
+.label {
+	font-family: var(--font-display);
+	font-size: 0.75rem;
+	font-weight: 500;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--ink-faint);
+}
+
+.label::before {
+	content: '§ ';
+	color: var(--line-strong);
+}
+
+.container {
+	width: 100%;
+	max-width: var(--content-width);
+	margin-inline: auto;
+	padding-inline: var(--space-5);
+}
+
+@media (min-width: 640px) {
+	.container {
+		padding-inline: var(--space-6);
+	}
+}
+
+.section {
+	padding-block: var(--space-8);
+	border-top: 1px solid var(--line);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link {
+	position: absolute;
+	top: -3rem;
+	left: var(--space-4);
+	background: var(--ink);
+	color: var(--paper);
+	padding: var(--space-2) var(--space-4);
+	border-radius: var(--radius);
+	font-family: var(--font-display);
+	font-size: 0.875rem;
+	z-index: 100;
+	transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+	top: var(--space-4);
+}
+
+:focus-visible {
+	outline: 2px solid var(--copper);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}

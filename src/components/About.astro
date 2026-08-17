@@ -1,0 +1,52 @@
+---
+---
+
+<section class="section" id="about">
+	<div class="container about-grid">
+		<div>
+			<p class="label">About</p>
+			<h2 class="text-h2 heading">Notes on the person writing this</h2>
+		</div>
+		<div class="copy">
+			<p class="text-lead">
+				I'm a software engineer working on backend, platform, and cloud-native
+				systems — mostly Java services running on Kubernetes and OpenShift.
+			</p>
+			<p>
+				Day to day that means REST APIs, container platforms, and the
+				automation that keeps them running. Outside of that, I build small
+				personal projects (a couple are across the way) and occasionally
+				write about what I've been learning.
+			</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	.about-grid {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.heading {
+		margin-top: var(--space-3);
+		max-width: 20ch;
+	}
+
+	.copy {
+		display: grid;
+		gap: var(--space-4);
+		color: var(--ink-soft);
+		max-width: 60ch;
+	}
+
+	.copy .text-lead {
+		color: var(--ink);
+	}
+
+	@media (min-width: 860px) {
+		.about-grid {
+			grid-template-columns: 0.8fr 1.2fr;
+		}
+	}
+</style>

@@ -1,0 +1,207 @@
+---
+import { NAV } from '../lib/site';
+---
+
+<header class="site-header">
+	<div class="container bar">
+		<a href="#top" class="mark" aria-label="Amalraj Joseph, back to top">
+			<span class="mark-glyph" aria-hidden="true">&gt;_</span>
+			<span class="mark-text">amalraj</span>
+		</a>
+
+		<nav class="nav" aria-label="Primary">
+			<ul>
+				{
+					NAV.map((item) => (
+						<li>
+							<a href={item.href}>{item.label}</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<button
+			id="nav-toggle"
+			class="nav-toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="mobile-nav"
+		>
+			<span class="visually-hidden">Toggle navigation menu</span>
+			<span class="nav-toggle-icon" aria-hidden="true"></span>
+		</button>
+	</div>
+
+	<nav id="mobile-nav" class="mobile-nav" aria-label="Primary mobile" hidden>
+		<ul>
+			{
+				NAV.map((item) => (
+					<li>
+						<a href={item.href}>{item.label}</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</header>
+
+<script>
+	const toggle = document.getElementById('nav-toggle');
+	const menu = document.getElementById('mobile-nav');
+	if (toggle && menu) {
+		toggle.addEventListener('click', () => {
+			const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+			toggle.setAttribute('aria-expanded', String(!isOpen));
+			menu.hidden = isOpen;
+			document.body.classList.toggle('nav-open', !isOpen);
+		});
+
+		menu.addEventListener('click', (e) => {
+			if ((e.target as HTMLElement).tagName === 'A') {
+				toggle.setAttribute('aria-expanded', 'false');
+				menu.hidden = true;
+				document.body.classList.remove('nav-open');
+			}
+		});
+	}
+</script>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--paper) 92%, transparent);
+		backdrop-filter: blur(6px);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-block: var(--space-4);
+	}
+
+	.mark {
+		display: inline-flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		text-decoration: none;
+		font-family: var(--font-display);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.mark-glyph {
+		color: var(--copper);
+	}
+
+	.mark-text {
+		letter-spacing: -0.02em;
+	}
+
+	.nav {
+		display: none;
+	}
+
+	.nav ul {
+		display: flex;
+		gap: var(--space-6);
+	}
+
+	.nav a {
+		font-family: var(--font-display);
+		font-size: 0.9rem;
+		text-decoration: none;
+		color: var(--ink-soft);
+		padding-block: var(--space-1);
+		border-bottom: 1px solid transparent;
+		transition: color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.nav a:hover {
+		color: var(--ink);
+		border-color: var(--copper);
+	}
+
+	.nav-toggle {
+		background: none;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
+		width: 2.5rem;
+		height: 2.5rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	.nav-toggle-icon,
+	.nav-toggle-icon::before,
+	.nav-toggle-icon::after {
+		display: block;
+		width: 1.1rem;
+		height: 2px;
+		background: var(--ink);
+		position: relative;
+		transition: transform 0.2s ease, opacity 0.2s ease;
+	}
+
+	.nav-toggle-icon::before,
+	.nav-toggle-icon::after {
+		content: '';
+		position: absolute;
+	}
+
+	.nav-toggle-icon::before {
+		top: -6px;
+	}
+
+	.nav-toggle-icon::after {
+		top: 6px;
+	}
+
+	.nav-toggle[aria-expanded='true'] .nav-toggle-icon {
+		background: transparent;
+	}
+
+	.nav-toggle[aria-expanded='true'] .nav-toggle-icon::before {
+		transform: translateY(6px) rotate(45deg);
+	}
+
+	.nav-toggle[aria-expanded='true'] .nav-toggle-icon::after {
+		transform: translateY(-6px) rotate(-45deg);
+	}
+
+	.mobile-nav {
+		border-bottom: 1px solid var(--line);
+		background: var(--paper);
+	}
+
+	.mobile-nav ul {
+		display: flex;
+		flex-direction: column;
+		padding: var(--space-4) var(--space-5) var(--space-5);
+		gap: var(--space-4);
+	}
+
+	.mobile-nav a {
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		text-decoration: none;
+		color: var(--ink);
+	}
+
+	@media (min-width: 720px) {
+		.nav {
+			display: block;
+		}
+
+		.nav-toggle,
+		.mobile-nav {
+			display: none;
+		}
+	}
+</style>
