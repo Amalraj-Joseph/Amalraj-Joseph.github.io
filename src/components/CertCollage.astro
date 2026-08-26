@@ -1,0 +1,51 @@
+---
+interface Props {
+	items: {
+		data: {
+			name: string;
+			issuer: string;
+			date: string;
+			type: 'certificate' | 'award';
+			credentialUrl?: string;
+			certificateFile?: string;
+		};
+	}[];
+}
+
+const { items } = Astro.props;
+
+const formatDate = (iso: string) =>
+	new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+// A few degrees of "stuck on the page" rotation, cycling deterministically
+// so the collage looks scattered without any client-side randomness.
+const angles = [-3, 2, -1.5, 3, -2, 1, -2.5, 1.5];
+---
+
+<ul class="cert-collage">
+	{
+		items.map((item, i) => (
+			<li style={`--tilt: ${angles[i % angles.length]}deg`}>
+				<button
+					type="button"
+					class:list={['cert-tile', { award: item.data.type === 'award' }]}
+					data-image={item.data.certificateFile}
+					data-name={item.data.name}
+					data-sub={`${item.data.issuer} · ${formatDate(item.data.date)}`}
+					data-verify={item.data.credentialUrl ?? ''}
+					aria-haspopup="dialog"
+				>
+					<img src={item.data.certificateFile} alt="" loading="lazy" decoding="async" />
+					{item.data.type === 'award' && (
+						<span class="tag" aria-hidden="true">
+							Award
+						</span>
+					)}
+					<span class="visually-hidden">
+						{item.data.name} — {item.data.issuer}, {formatDate(item.data.date)}. Open full size.
+					</span>
+				</button>
+			</li>
+		))
+	}
+</ul>

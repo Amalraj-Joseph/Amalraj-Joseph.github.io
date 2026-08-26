@@ -1,0 +1,222 @@
+---
+import { getCollection } from 'astro:content';
+import CertCollage from './CertCollage.astro';
+import NeuralNetGraphic from './NeuralNetGraphic.astro';
+
+const publications = (await getCollection('publications')).sort((a, b) => a.data.order - b.data.order);
+const aiCerts = (await getCollection('certifications'))
+	.filter((c) => c.data.category === 'ai')
+	.sort((a, b) => a.data.order - b.data.order);
+
+const projectTech = ['Python', 'TensorFlow / Keras', 'Microsoft AirSim', 'CNN'];
+---
+
+<section class="section" id="ai">
+	<div class="container">
+		<div class="head">
+			<div>
+				<p class="label">AI &amp; Machine Learning</p>
+				<h2 class="text-h2 heading">A parallel thread in ML</h2>
+				<p class="text-lead intro">
+					Alongside backend and platform work, a running interest in applied machine learning —
+					an academic research project, the writing it led to, and the models and tools I keep
+					learning since.
+				</p>
+			</div>
+			<div class="head-visual">
+				<NeuralNetGraphic />
+			</div>
+		</div>
+
+		<div class="block">
+			<p class="block-label">Project</p>
+			<h3 class="text-h3">Self Driving Car Using CNN</h3>
+			<p class="meta">Academic project · MCA final year, FISAT · 2023</p>
+			<p class="desc">
+				A convolutional neural network that predicts steering angle in real time from a single
+				camera feed, running inside Microsoft AirSim. Deliberately camera-only — no LiDAR or
+				radar — as a cost-conscious design choice over more expensive sensor setups. The
+				pipeline collects expert driving demonstrations, preprocesses and augments them
+				(mirroring left turns into right turns to balance the dataset), and trains a CNN —
+				convolutional, pooling, dropout, and dense layers, Adam optimizer, mean-squared-error
+				loss — to feed steering predictions back into the simulator as a closed feedback loop.
+				Evaluated across curves and turns in different AirSim driving scenarios.
+			</p>
+			<ul class="tech" aria-label="Technologies used">
+				{projectTech.map((t) => <li>{t}</li>)}
+			</ul>
+		</div>
+
+		<div class="block">
+			<p class="block-label">Publications</p>
+			<ul class="shelf">
+				{
+					publications.map((pub) => (
+						<li class="entry">
+							<a class="entry-link" href={pub.data.url} target="_blank" rel="noopener noreferrer">
+								<span class="entry-top">
+									<span class="entry-title">{pub.data.title}</span>
+									<span class="entry-year">{pub.data.year}</span>
+								</span>
+								<span class="entry-desc">{pub.data.description}</span>
+								{pub.data.note && <span class="entry-note">{pub.data.note}</span>}
+								<span class="entry-meta">
+									{pub.data.venue} · {pub.data.type === 'paper' ? 'Paper' : 'Article'} ↗
+								</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<div class="block">
+			<p class="block-label">Learning</p>
+			<CertCollage items={aiCerts} />
+		</div>
+	</div>
+</section>
+
+<style>
+	.heading {
+		margin-top: var(--space-3);
+	}
+
+	.intro {
+		margin-top: var(--space-4);
+		max-width: 60ch;
+		color: var(--ink-soft);
+	}
+
+	.head {
+		display: grid;
+		gap: var(--space-6);
+		align-items: center;
+	}
+
+	.head-visual {
+		display: none;
+	}
+
+	@media (min-width: 860px) {
+		.head {
+			grid-template-columns: 1.3fr 0.7fr;
+		}
+
+		.head-visual {
+			display: block;
+		}
+	}
+
+	.block {
+		margin-top: var(--space-7);
+		padding-top: var(--space-6);
+		border-top: 1px dashed var(--line);
+	}
+
+	.block-label {
+		font-family: var(--font-display);
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--teal-strong);
+		margin-bottom: var(--space-3);
+	}
+
+	.meta {
+		font-family: var(--font-display);
+		font-size: 0.85rem;
+		color: var(--ink-faint);
+		margin-top: var(--space-2);
+	}
+
+	.desc {
+		margin-top: var(--space-4);
+		color: var(--ink-soft);
+		max-width: 68ch;
+	}
+
+	.tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+	}
+
+	.tech li {
+		font-family: var(--font-display);
+		font-size: 0.75rem;
+		color: var(--ink-soft);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
+		padding: var(--space-1) var(--space-3);
+	}
+
+	/* publications shelf, matching the site's existing entry pattern */
+	.shelf {
+		display: grid;
+	}
+
+	.entry + .entry {
+		border-top: 1px dashed var(--line);
+	}
+
+	.entry-link {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+		padding-block: var(--space-5);
+		transition: padding-inline 0.15s ease, background 0.15s ease;
+	}
+
+	.entry-link:hover {
+		background: color-mix(in srgb, var(--paper-raised) 70%, transparent);
+		padding-inline: var(--space-3);
+	}
+
+	.entry-top {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
+		align-items: baseline;
+	}
+
+	.entry-title {
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1.05rem;
+		max-width: 52ch;
+	}
+
+	.entry-year {
+		font-family: var(--font-display);
+		font-size: 0.85rem;
+		color: var(--ink-faint);
+		white-space: nowrap;
+	}
+
+	.entry-desc {
+		display: block;
+		margin-top: var(--space-2);
+		color: var(--ink-soft);
+		max-width: 60ch;
+	}
+
+	.entry-note {
+		display: block;
+		margin-top: var(--space-2);
+		color: var(--ink-faint);
+		font-size: 0.85rem;
+		font-style: italic;
+		max-width: 60ch;
+	}
+
+	.entry-meta {
+		display: block;
+		margin-top: var(--space-3);
+		font-family: var(--font-display);
+		font-size: 0.8rem;
+		color: var(--teal-strong);
+	}
+</style>

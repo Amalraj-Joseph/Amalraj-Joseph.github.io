@@ -1,0 +1,146 @@
+---
+import TruckGraphic from './TruckGraphic.astro';
+
+const entries = [
+	{
+		title: 'SLSA provenance report links (WASdev)',
+		repos: [
+			{ label: 'slsa-maven-plugin #13', href: 'https://github.com/WASdev/slsa-maven-plugin/pull/13' },
+			{ label: 'intoto4j #7', href: 'https://github.com/WASdev/intoto4j/pull/7' },
+		],
+		description:
+			"These two IBM-maintained libraries generate SLSA provenance reports (a supply-chain attestation format) for Maven builds. Their reports linked to a Sonatype search-page URL that 404'd for some artifacts; switched the template to Maven Central's direct repository path in intoto4j — which meant converting group IDs from dot to slash notation — then updated slsa-maven-plugin's docs to match. Both merged.",
+		tags: ['SLSA', 'Software supply chain', 'Java', 'Maven'],
+	},
+];
+---
+
+<section class="section" id="open-source">
+	<div class="container">
+		<p class="label">Open Source</p>
+		<h2 class="text-h2 heading">One fix, two repos</h2>
+		<p class="text-lead intro">
+			Small, but in a project other people's build pipelines depend on.
+		</p>
+
+		<ul class="list">
+			{
+				entries.map((entry) => (
+					<li class="entry">
+						<div class="entry-copy">
+							<div class="entry-head">
+								<h3 class="text-h3">{entry.title}</h3>
+								<div class="prs">
+									{entry.repos.map((repo) => (
+										<a href={repo.href} target="_blank" rel="noopener noreferrer">
+											{repo.label} ↗
+										</a>
+									))}
+								</div>
+							</div>
+							<p class="desc">{entry.description}</p>
+							<ul class="tags" aria-label="Related technologies">
+								{entry.tags.map((tag) => (
+									<li>{tag}</li>
+								))}
+							</ul>
+						</div>
+						<div class="entry-visual">
+							<TruckGraphic />
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.heading {
+		margin-top: var(--space-3);
+	}
+
+	.intro {
+		margin-top: var(--space-4);
+		color: var(--ink-soft);
+		max-width: 50ch;
+	}
+
+	.list {
+		margin-top: var(--space-6);
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.entry {
+		display: grid;
+		gap: var(--space-6);
+		align-items: center;
+	}
+
+	.entry + .entry {
+		padding-top: var(--space-6);
+		border-top: 1px dashed var(--line);
+	}
+
+	.entry-visual {
+		display: none;
+	}
+
+	.entry-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3) var(--space-5);
+	}
+
+	.prs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+	}
+
+	.prs a {
+		font-family: var(--font-display);
+		font-size: 0.82rem;
+		color: var(--teal-strong);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+	}
+
+	.prs a:hover {
+		border-color: var(--teal);
+	}
+
+	.desc {
+		margin-top: var(--space-3);
+		color: var(--ink-soft);
+		max-width: 68ch;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: var(--space-4);
+	}
+
+	.tags li {
+		font-family: var(--font-display);
+		font-size: 0.72rem;
+		color: var(--ink-soft);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
+		padding: var(--space-1) var(--space-3);
+	}
+
+	@media (min-width: 860px) {
+		.entry {
+			grid-template-columns: 1.3fr 0.7fr;
+		}
+
+		.entry-visual {
+			display: block;
+		}
+	}
+</style>

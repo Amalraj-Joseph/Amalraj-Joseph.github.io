@@ -1,11 +1,40 @@
 ---
 const groups = [
-	{ name: 'Languages', items: ['Java', 'Python', 'Shell'] },
-	{ name: 'Platform', items: ['Kubernetes', 'OpenShift', 'Docker', 'Podman'] },
-	{ name: 'Cloud', items: ['IBM Cloud', 'AWS'] },
-	{ name: 'Backend', items: ['REST APIs', 'Microservices', 'Maven', 'WebSphere Liberty'] },
-	{ name: 'Developer tooling', items: ['Git', 'GitHub', 'Jenkins', 'ArgoCD', 'Ansible'] },
+	{ name: 'Languages', items: ['Java', 'Python', 'Shell'], accent: 'copper' },
+	{ name: 'Platform', items: ['Kubernetes', 'OpenShift', 'Docker', 'Podman'], accent: 'teal' },
+	{
+		name: 'Cloud & infrastructure',
+		items: ['IBM Cloud', 'Oracle Cloud Infrastructure', 'AWS', 'Cloudflare'],
+		accent: 'copper',
+	},
+	{
+		name: 'Backend',
+		items: [
+			'Jakarta EE',
+			'MicroProfile',
+			'Open Liberty / WebSphere Liberty',
+			'REST APIs',
+			'Microservices',
+			'Maven',
+			'PostgreSQL',
+			'IBM Db2',
+		],
+		accent: 'teal',
+	},
+	{
+		name: 'Identity & security',
+		items: ['Keycloak', 'IBM App ID', 'OAuth2 / OIDC', 'JWT', 'SLSA supply-chain security'],
+		accent: 'copper',
+	},
+	{
+		name: 'Developer tooling',
+		items: ['Git', 'GitHub', 'GitHub Actions', 'Jenkins', 'ArgoCD', 'Ansible'],
+		accent: 'teal',
+	},
+	{ name: 'AI-assisted engineering', items: ['Claude', 'ChatGPT', 'IBM Bob'], accent: 'copper' },
 ];
+
+const angles = [-2.5, 1.5, -1, 2, -1.5, 1, 2.5, -2];
 ---
 
 <section class="section" id="skills">
@@ -16,11 +45,11 @@ const groups = [
 		<div class="groups">
 			{
 				groups.map((group) => (
-					<div class="group">
+					<div class={`group accent-${group.accent}`}>
 						<h3 class="group-name">{group.name}</h3>
 						<ul>
-							{group.items.map((item) => (
-								<li>{item}</li>
+							{group.items.map((item, i) => (
+								<li style={`--tilt: ${angles[i % angles.length]}deg`}>{item}</li>
 							))}
 						</ul>
 					</div>
@@ -37,9 +66,9 @@ const groups = [
 
 	.groups {
 		display: grid;
-		gap: var(--space-6);
-		margin-top: var(--space-6);
-		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+		gap: var(--space-7) var(--space-6);
+		margin-top: var(--space-7);
+		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 	}
 
 	.group-name {
@@ -53,17 +82,47 @@ const groups = [
 	.group ul {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-2);
-		margin-top: var(--space-3);
+		gap: var(--space-3) var(--space-2);
+		margin-top: var(--space-4);
 	}
 
 	.group li {
+		position: relative;
+		transform: rotate(var(--tilt));
 		font-family: var(--font-display);
 		font-size: 0.8rem;
 		color: var(--ink);
-		border: 1px solid var(--line-strong);
-		border-radius: var(--radius);
+		border-radius: 2px;
 		padding: var(--space-1) var(--space-3);
 		background: var(--paper-raised);
+		box-shadow: 0 2px 4px rgba(20, 24, 29, 0.14);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.group li:hover {
+		transform: rotate(0deg) scale(1.06);
+		box-shadow: 0 4px 10px rgba(20, 24, 29, 0.22);
+		z-index: 1;
+	}
+
+	.accent-copper li::before,
+	.accent-teal li::before {
+		content: '';
+		position: absolute;
+		left: 0.4rem;
+		right: 0.4rem;
+		bottom: 2px;
+		height: 2px;
+		border-radius: 1px;
+	}
+
+	.accent-copper li::before {
+		background: var(--copper);
+		opacity: 0.55;
+	}
+
+	.accent-teal li::before {
+		background: var(--teal);
+		opacity: 0.55;
 	}
 </style>

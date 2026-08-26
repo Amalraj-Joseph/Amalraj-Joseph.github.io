@@ -17,6 +17,6 @@ export const PROFILES = {
 export const NAV = [
 	{ label: 'Work', href: '#work' },
 	{ label: 'About', href: '#about' },
-	{ label: 'Writing', href: '#writing' },
+	{ label: 'AI', href: '#ai' },
 	{ label: 'Contact', href: '#contact' },
 ];

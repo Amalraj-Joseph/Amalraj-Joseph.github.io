@@ -1,0 +1,51 @@
+---
+// One shared lightbox dialog for every .cert-tile on the page, wherever
+// it's rendered from (Certifications, AI & Machine Learning, etc).
+---
+
+<dialog id="cert-dialog" aria-labelledby="cert-dialog-name">
+	<form method="dialog" class="dialog-shell">
+		<button type="submit" class="close" aria-label="Close">✕</button>
+		<img id="cert-dialog-img" src="" alt="" />
+		<div class="dialog-meta">
+			<p id="cert-dialog-name" class="dialog-name" />
+			<p id="cert-dialog-sub" class="dialog-sub" />
+			<a id="cert-dialog-verify" class="dialog-verify" target="_blank" rel="noopener noreferrer">
+				Verify ↗
+			</a>
+		</div>
+	</form>
+</dialog>
+
+<script>
+	const dialog = document.getElementById('cert-dialog') as HTMLDialogElement | null;
+	const img = document.getElementById('cert-dialog-img') as HTMLImageElement | null;
+	const name = document.getElementById('cert-dialog-name');
+	const sub = document.getElementById('cert-dialog-sub');
+	const verify = document.getElementById('cert-dialog-verify') as HTMLAnchorElement | null;
+
+	document.querySelectorAll<HTMLButtonElement>('.cert-tile').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			if (!dialog || !img || !name || !sub || !verify) return;
+			img.src = btn.dataset.image ?? '';
+			img.alt = `${btn.dataset.name ?? ''} certificate`;
+			name.textContent = btn.dataset.name ?? '';
+			sub.textContent = btn.dataset.sub ?? '';
+			const href = btn.dataset.verify ?? '';
+			if (href) {
+				verify.href = href;
+				verify.hidden = false;
+			} else {
+				verify.hidden = true;
+			}
+			dialog.showModal();
+		});
+	});
+
+	dialog?.addEventListener('click', (e) => {
+		const rect = dialog.getBoundingClientRect();
+		const inside =
+			e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+		if (!inside) dialog.close();
+	});
+</script>

@@ -1,28 +1,128 @@
 ---
-const points = [
-	'Worked on a Maven-based software distribution repository integrating IBM Fix Central infrastructure and repository management.',
-	'Built backend services for deploying and managing multi-module Java applications on a cloud application platform, including REST APIs for retrieving repository metadata in multi-tenant environments.',
-	'Worked on integration testing for IBM Enterprise Application Service for Java on AWS.',
-	'Evaluated the impact of migrating container base images across microservices deployed on Red Hat OpenShift.',
-	'Built automation for credential rotation and artifact publishing with Jenkins and JFrog Artifactory, and internal tooling for reporting and repository workflows in Python.',
+import ExperienceGraphic from './ExperienceGraphic.astro';
+
+const roles = [
+	{
+		team: 'Maven Software Distribution Repository',
+		period: 'March 2026 — Present',
+		points: [
+			'Working on a Maven-based software distribution repository integrating IBM Fix Central infrastructure and repository management.',
+		],
+		tech: ['Java', 'Maven', 'IBM Fix Central'],
+	},
+	{
+		team: 'IBM Enterprise Application Service for Java',
+		period: 'July 2024 — March 2026',
+		points: [
+			'Developed backend support, and its test suite, for deploying multi-module Java (Maven) applications on a cloud application platform; found defects in how multi-module test reports were handled and in the platform’s SLSA supply-chain provenance reporting, later contributing an open-source fix to the SLSA tooling itself (see Open Source, above).',
+			'Built a REST API serving JSON-schema configuration data — with localized messages — for a companion editor extension, and a separate REST API for searching Maven artifact coordinates across public and private repositories.',
+			'Extended deployment tooling to support Open Liberty server-package archives for applications with runtime dependencies that can’t be packaged into the application itself.',
+			'Worked on integration testing for the platform’s onboarding to AWS, including automated regression tests and identifying platform-specific gaps in secrets handling and tooling.',
+			'Enhanced an internal multi-cloud integration-test framework to link failing tests to GitHub issues and Slack notifications, and built a Python logging framework for API-level tests.',
+			'Reviewed cloud secrets against their actual usage and worked on credential-rotation automation tooling using Jenkins and IBM Cloud Secrets Manager.',
+			'Analyzed and helped remediate findings from static-analysis security scanning as part of ongoing platform maintenance.',
+		],
+		tech: [
+			'AWS',
+			'IBM Cloud',
+			'ROKS',
+			'ROSA',
+			'ArgoCD',
+			'Java',
+			'Jakarta EE',
+			'Maven',
+			'Open Liberty',
+			'REST APIs',
+			'Python',
+			'SLSA',
+			'Jenkins',
+		],
+	},
+	{
+		team: 'IBM WebSphere Automation',
+		period: 'July 2023 — July 2024',
+		points: [
+			'Built REST APIs and downloadable CSV audit reports for an OpenShift-deployed tool that manages security and health across WebSphere server estates.',
+			'Wrote a reporting script analyzing product usage data to support product decisions, later automated as a scheduled job.',
+			'Maintained tooling that converts security bulletins into the CSAF (Common Security Advisory Framework) format used for vulnerability tracking.',
+			'Worked as an integration-test focal point for the team: wrote test cases, tracked build health, and documented the testing process.',
+			'Analyzed and triaged findings from static-analysis security scanning tools ahead of releases.',
+			'Evaluated the impact of migrating container base images from RHEL 8 to RHEL 9 across microservices deployed on Red Hat OpenShift.',
+			'Migrated the team’s SMTP/IMAP test-server infrastructure from RHEL 7 to Ubuntu 24.',
+		],
+		tech: ['OpenShift', 'Kubernetes', 'Java', 'Python', 'Travis CI', 'GitHub'],
+	},
+	{
+		team: 'Artifacts Uploader (Internship)',
+		period: 'January 2023 — July 2023',
+		points: [
+			'Expanded "Artifacts Uploader," a Java/Open Liberty tool for publishing Maven artifacts to JFrog Artifactory, to support multi-artifact uploads, with metadata retrieval via the ShrinkWrap Resolver API.',
+		],
+		tech: ['Java', 'Open Liberty', 'JFrog Artifactory', 'Maven'],
+		cert: {
+			image: '/certificates/internship-completion.png',
+			name: 'Internship Completion',
+			sub: 'IBM · Jul 2023',
+		},
+	},
 ];
 ---
 
 <section class="section" id="experience">
 	<div class="container exp-grid">
+		<div class="intro-col">
 		<div>
 			<p class="label">Experience</p>
 			<h2 class="text-h2 heading">Where this work happens</h2>
+			<p class="employer">IBM India Software Lab · Kochi, India · January 2023 — Present</p>
+		</div>
+			<ExperienceGraphic nodes={roles.length} />
 		</div>
 
-		<div class="role">
-			<div class="role-head">
-				<h3 class="text-h3">IBM India Software Lab</h3>
-				<p class="meta">Software Engineer · Kochi, India · July 2023 — Present</p>
-			</div>
-			<ul class="points">
-				{points.map((point) => <li>{point}</li>)}
-			</ul>
+		<div class="roles">
+			{
+				roles.map((role) => (
+					<div class="role">
+						<div class="role-head">
+							<h3 class="text-h3">{role.team}</h3>
+							<p class="meta">{role.period}</p>
+						</div>
+						<ul class="points">
+							{role.points.map((point) => (
+								<li>{point}</li>
+							))}
+						</ul>
+						<ul class="tech" aria-label={`Technologies used on ${role.team}`}>
+							{role.tech.map((t) => (
+								<li>{t}</li>
+							))}
+						</ul>
+						{role.cert && (
+							<div class="cert-inline">
+								<button
+									type="button"
+									class="cert-tile"
+									data-image={role.cert.image}
+									data-name={role.cert.name}
+									data-sub={role.cert.sub}
+									data-verify=""
+									aria-haspopup="dialog"
+								>
+									<img src={role.cert.image} alt="" loading="lazy" decoding="async" />
+									<span class="visually-hidden">
+										{role.cert.name} — {role.cert.sub}. Open full size.
+									</span>
+								</button>
+								<span class="cert-caption">Internship completion certificate</span>
+							</div>
+						)}
+					</div>
+				))
+			}
+			<p class="also">
+				Also: contributed code examples used to help train an internal AI coding assistant for
+				enterprise Java development — a separate initiative, not tied to a specific project above.
+			</p>
 		</div>
 	</div>
 </section>
@@ -36,6 +136,33 @@ const points = [
 	.heading {
 		margin-top: var(--space-3);
 		max-width: 20ch;
+	}
+
+	.employer {
+		margin-top: var(--space-4);
+		font-family: var(--font-display);
+		font-size: 0.85rem;
+		color: var(--ink-faint);
+	}
+
+	.intro-col {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.intro-col > :global(.timeline) {
+		margin-top: var(--space-7);
+		flex: 1;
+	}
+
+	.roles {
+		display: grid;
+		gap: var(--space-7);
+	}
+
+	.role + .role {
+		padding-top: var(--space-6);
+		border-top: 1px dashed var(--line);
 	}
 
 	.role-head {
@@ -53,7 +180,7 @@ const points = [
 		display: grid;
 		gap: var(--space-3);
 		margin-top: var(--space-5);
-		max-width: 62ch;
+		max-width: 64ch;
 	}
 
 	.points li {
@@ -70,6 +197,45 @@ const points = [
 		width: 6px;
 		height: 6px;
 		background: var(--teal);
+	}
+
+	.tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+	}
+
+	.tech li {
+		font-family: var(--font-display);
+		font-size: 0.72rem;
+		color: var(--ink-faint);
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		padding: 0.15rem var(--space-3);
+	}
+
+	.cert-inline {
+		margin-top: var(--space-5);
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+	}
+
+	.cert-caption {
+		font-family: var(--font-display);
+		font-size: 0.8rem;
+		color: var(--ink-faint);
+	}
+
+	.also {
+		margin-top: var(--space-2);
+		padding-top: var(--space-6);
+		border-top: 1px dashed var(--line);
+		color: var(--ink-faint);
+		font-size: 0.85rem;
+		font-style: italic;
+		max-width: 60ch;
 	}
 
 	@media (min-width: 860px) {
