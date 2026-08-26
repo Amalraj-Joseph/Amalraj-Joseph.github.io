@@ -3,10 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Work from '../components/Work.astro';
+import OpenSource from '../components/OpenSource.astro';
 import About from '../components/About.astro';
 import Experience from '../components/Experience.astro';
 import Skills from '../components/Skills.astro';
-import Writing from '../components/Writing.astro';
+import Certifications from '../components/Certifications.astro';
+import AI from '../components/AI.astro';
+import CertLightbox from '../components/CertLightbox.astro';
 import Footer from '../components/Footer.astro';
 ---
 
@@ -15,10 +18,13 @@ import Footer from '../components/Footer.astro';
 	<main id="main">
 		<Hero />
 		<Work />
+		<OpenSource />
 		<About />
 		<Experience />
 		<Skills />
-		<Writing />
+		<Certifications />
+		<AI />
 	</main>
+	<CertLightbox />
 	<Footer />
 </BaseLayout>

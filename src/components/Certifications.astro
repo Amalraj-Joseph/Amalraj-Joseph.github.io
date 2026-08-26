@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import CertCollage from './CertCollage.astro';
+
+const all = (await getCollection('certifications'))
+	.filter((c) => c.data.category === 'general')
+	.sort((a, b) => a.data.order - b.data.order);
+
+const awards = all.filter((c) => c.data.type === 'award');
+const certs = all.filter((c) => c.data.type !== 'award');
+
+const formatDate = (iso: string) =>
+	new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+---
+
+<section class="section" id="certifications">
+	<div class="container">
+		<p class="label">Certifications &amp; Awards</p>
+		<h2 class="text-h2 heading">Learning, on the record</h2>
+		<p class="text-lead intro">
+			A working selection, not the full list — the courses and internal recognitions that
+			actually line up with the work above. Tap any one to open it full-size.
+		</p>
+
+		{
+			awards.length > 0 && (
+				<div class="block">
+					<p class="sub-label">Award</p>
+					<div class="awards">
+						{awards.map((award) => (
+							<div class="award-card">
+								<button
+									type="button"
+									class="cert-tile award-tile"
+									data-image={award.data.certificateFile}
+									data-name={award.data.name}
+									data-sub={`${award.data.issuer} · ${formatDate(award.data.date)}`}
+									data-verify=""
+									aria-haspopup="dialog"
+								>
+									<img src={award.data.certificateFile} alt="" loading="lazy" decoding="async" />
+									<span class="visually-hidden">
+										{award.data.name} — {award.data.issuer}, {formatDate(award.data.date)}. Open full size.
+									</span>
+								</button>
+								<div class="award-meta">
+									<p class="award-name">{award.data.name}</p>
+									<p class="award-sub">
+										{award.data.issuer} · {formatDate(award.data.date)}
+									</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			)
+		}
+
+		<div class="block">
+			<p class="sub-label">Certifications</p>
+			<CertCollage items={certs} />
+		</div>
+	</div>
+</section>
+
+<style>
+	.heading {
+		margin-top: var(--space-3);
+	}
+
+	.intro {
+		margin-top: var(--space-4);
+		max-width: 56ch;
+		color: var(--ink-soft);
+	}
+
+	.block {
+		margin-top: var(--space-7);
+	}
+
+	.sub-label {
+		font-family: var(--font-display);
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--copper-strong);
+		margin-bottom: var(--space-4);
+	}
+
+	.awards {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-5);
+	}
+
+	.award-card {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+	}
+
+	.award-tile {
+		width: 220px;
+		height: 220px;
+		border: 2px solid var(--copper);
+		border-radius: var(--radius);
+		box-shadow: 0 4px 12px rgba(20, 24, 29, 0.2);
+	}
+
+	.award-tile img {
+		object-fit: contain;
+		background: #fff;
+	}
+
+	.award-tile:hover,
+	.award-tile:focus-visible {
+		transform: scale(1.04);
+	}
+
+	.award-name {
+		font-family: var(--font-display);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.award-sub {
+		font-size: 0.85rem;
+		color: var(--ink-faint);
+		margin-top: var(--space-1);
+	}
+</style>
